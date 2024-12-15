@@ -59,6 +59,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 # Application definition
 
 DEFAULT_APPS = [
+    "jazzmin",
     "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -254,3 +255,11 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 FRONTEND_CONFIRM_EMAIL_URL = env("FRONTEND_CONFIRM_EMAIL_URL")
 FRONTEND_PASSWORD_RESET_URL = env("FRONTEND_PASSWORD_RESET_URL")
 GOOGLE_CALLBACK_URL = env("GOOGLE_CALLBACK_URL")
+
+
+# Django Jazzmin Settings
+JAZZMIN_SETTINGS = {
+    "site_title": SITE_NAME,
+    "site_header": SITE_NAME,
+    "site_brand": SITE_NAME,
+}
