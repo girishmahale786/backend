@@ -1,0 +1,50 @@
+# Ignore Python byte code files
+__pycache__/
+*.pyc
+
+# Ignore migrations
+# */migrations/?0*
+
+# Ignore the virtual environment
+venv/
+env/
+
+# Ignore database files
+*.sqlite3
+*.json
+
+# Ignore IDE and text editor-specific files and directories
+.vscode/
+.idea/
+*.pyc
+
+# Ignore log files
+*.log
+
+# Ignore static and media files (if using a different storage backend for media files)
+/static/
+/media/
+
+# Ignore secret keys and sensitive information (keep these in environment variables)
+.env
+
+# Ignore local development settings (each developer may have their own)
+local_settings.py
+
+# Ignore database backup files
+*.backup
+*.dump
+*.sql
+
+# Ignore compiled Python files
+*.pyo
+*.pyd
+
+# Ignore runtime files
+__pycache__/
+*.pid
+
+# Ignore testing and coverage directories
+/coverage/
+/nose2-report/
+/nose2-results/
