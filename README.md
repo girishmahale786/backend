@@ -35,6 +35,19 @@
    CORS_ORIGIN_WHITELIST=''
    DATABASE_URL='psql://<user>:<password>@localhost:5432/<db_name>'
    SQLITE_URL='sqlite:///db.sqlite3'
+   SITE_NAME='<your-site-name>'
+   EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+   EMAIL_HOST='smtp.gmail.com'
+   EMAIL_PORT=587
+   EMAIL_HOST_USER='<your-email-address>'
+   EMAIL_HOST_PASSWORD='<your-email-password>'
+   EMAIL_USE_TLS=True
+   EMAIL_USE_SSL=False
+   SUPPORT_EMAIL='<your-support-email>'
+   FRONTEND_CONFIRM_EMAIL_URL='<your-frontend-url>?key={key}'
+   FRONTEND_PASSWORD_RESET_URL='<your-frontend-url>?uid={uid}&token={token}'
+   GOOGLE_CALLBACK_URL='<your-google-callback-url>'
+
    ```
 
 5. Run database migrations:
@@ -55,6 +68,7 @@
 8. Access the project at:
    - API Docs (Swagger UI): `http://127.0.0.1:8000/docs/`
    - API Docs (Redoc UI): `http://127.0.0.1:8000/redoc/`
+   - Admin Panel: `http://127.0.0.1:8000/admin/`
 
 
 ## Helpful Commands

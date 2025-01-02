@@ -29,6 +29,18 @@ env = environ.Env(
     CORS_ALLOW_CREDENTIALS=(bool, False),
     CORS_ORIGIN_ALLOW_ALL=(bool, False),
     CORS_ORIGIN_WHITELIST=(list, []),
+    SITE_NAME=(str, "Backend"),
+    EMAIL_BACKEND=(str, ""),
+    EMAIL_HOST=(str, "smtp.gmail.com"),
+    EMAIL_PORT=(int, 587),
+    EMAIL_HOST_USER=(str, ""),
+    EMAIL_HOST_PASSWORD=(str, ""),
+    EMAIL_USE_TLS=(bool, True),
+    EMAIL_USE_SSL=(bool, False),
+    SUPPORT_EMAIL=(str, ""),
+    FRONTEND_CONFIRM_EMAIL_URL=(str, ""),
+    FRONTEND_PASSWORD_RESET_URL=(str, ""),
+    GOOGLE_CALLBACK_URL=(str, ""),
 )
 
 
@@ -47,6 +59,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 # Application definition
 
 DEFAULT_APPS = [
+    "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,14 +69,25 @@ DEFAULT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
     "corsheaders",
+    "drf_spectacular",
     "django_cleanup",
     "django_filters",
     "drf_standardized_errors",
+    "allauth.socialaccount.providers.google",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    "accounts",
+]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -77,6 +101,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -164,3 +189,68 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 CORS_ALLOW_CREDENTIALS = env("CORS_ALLOW_CREDENTIALS")
 CORS_ORIGIN_ALLOW_ALL = env("CORS_ORIGIN_ALLOW_ALL")
 CORS_ORIGIN_WHITELIST = env("CORS_ORIGIN_WHITELIST")
+
+
+# Auth User Model
+AUTH_USER_MODEL = "accounts.User"
+
+
+# Poject Settings
+SITE_ID = 1
+SITE_NAME = env("SITE_NAME")
+
+
+# Email Settings
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_USE_SSL = env("EMAIL_USE_SSL")
+SUPPORT_EMAIL = env("SUPPORT_EMAIL")
+
+
+# REST Framework Settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "backend.renderers.APIRenderer",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
+}
+
+# Django REST Auth Settings
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_SECURE": True,
+    "JWT_AUTH_HTTPONLY": False,
+    "OLD_PASSWORD_FIELD_ENABLED": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": True,
+    "JWT_AUTH_COOKIE": "access",
+    "JWT_AUTH_REFRESH_COOKIE": "refresh",
+    "REGISTER_SERIALIZER": "accounts.serializers.RegisterSerializer",
+    "LOGIN_SERIALIZER": "accounts.serializers.LoginSerializer",
+    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserDetailsSerializer",
+    "PASSWORD_RESET_SERIALIZER": "accounts.serializers.PasswordResetSerializer",
+}
+
+# Django Allauth Settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_ADAPTER = "accounts.adapter.AccountAdapter"
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+FRONTEND_CONFIRM_EMAIL_URL = env("FRONTEND_CONFIRM_EMAIL_URL")
+FRONTEND_PASSWORD_RESET_URL = env("FRONTEND_PASSWORD_RESET_URL")
+GOOGLE_CALLBACK_URL = env("GOOGLE_CALLBACK_URL")
