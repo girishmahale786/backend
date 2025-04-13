@@ -12,6 +12,11 @@ env/
 # Ignore database files
 *.sqlite3
 *.json
+*.pt
+*.pth
+*.h5
+*.keras
+*.pkl
 
 # Ignore IDE and text editor-specific files and directories
 .vscode/

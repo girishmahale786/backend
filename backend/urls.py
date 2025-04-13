@@ -45,4 +45,6 @@ urlpatterns = [
     ),
     # Accounts
     path("accounts/", include("accounts.urls")),
+    # Tools
+    path("tools/", include("tools.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
