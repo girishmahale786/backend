@@ -1,11 +1,12 @@
 from django.urls import path, include
 
 from rest_framework import routers
-from .views import AgentViewSet, ImageCaptionViewSet
+from .views import AgentViewSet, ImageCaptionViewSet, ImageGenerationViewSet
 
 router = routers.DefaultRouter()
 router.register("agents", AgentViewSet)
 router.register("image-captions", ImageCaptionViewSet)
+router.register("image-generations", ImageGenerationViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

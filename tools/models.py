@@ -39,3 +39,18 @@ class ImageCaption(models.Model):
 
     class Meta: 
         ordering = ['-created_at']
+
+
+class ImageGeneration(models.Model): 
+    prompt = models.TextField()
+    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="image_generations")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="image_generations")
+    image = models.ImageField(upload_to='images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.prompt[:50]
+    
+    class Meta:
+        ordering = ['-created_at']

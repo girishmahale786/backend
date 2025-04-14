@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Agent, ImageCaption
+from .models import Agent, ImageCaption, ImageGeneration
 
 # Register your models here.
 
@@ -18,3 +18,12 @@ class ImageCaptionAdmin(admin.ModelAdmin):
     list_display_links = list_display
     readonly_fields = ["created_at", "updated_at"]
     search_fields = ["id", "agent__name", "user__email", "caption"]
+
+
+@admin.register(ImageGeneration)
+class ImageGenerationAdmin(admin.ModelAdmin):
+    list_display = ["id", "agent", "prompt"]
+    list_display_links = list_display
+    readonly_fields = ["created_at", "updated_at"]
+    search_fields = ["id", "agent__name", "prompt"]
+    list_filter = ["agent"]
