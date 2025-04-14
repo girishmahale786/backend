@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Agent, ImageCaption
+from .models import Agent, ImageCaption, PhishingAgent
 
 # Register your models here.
 
@@ -18,3 +18,10 @@ class ImageCaptionAdmin(admin.ModelAdmin):
     list_display_links = list_display
     readonly_fields = ["created_at", "updated_at"]
     search_fields = ["id", "agent__name", "user__email", "caption"]
+
+@admin.register(PhishingAgent)
+class PhishingAgentAdmin(admin.ModelAdmin):
+    list_display = ["id", "url", "agent", "user"]
+    list_display_links = list_display
+    readonly_fields = ["created_at", "updated_at"]
+    search_fields = ["id", "url", "agent__name", "user__email"]

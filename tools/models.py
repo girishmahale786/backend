@@ -37,5 +37,19 @@ class ImageCaption(models.Model):
     def __str__(self):
         return self.caption[:50]
 
-    class Meta: 
+    class Meta:
         ordering = ['-created_at']
+
+class PhishingAgent(models.Model):
+    url = models.URLField()
+    result = models.FloatField(null=True)
+    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="phishing_agents")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="phishing_agents")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.url
+
+    class Meta:
+        ordering = ["-created_at"]

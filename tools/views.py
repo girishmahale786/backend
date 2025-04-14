@@ -1,8 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 
-from .serializers import AgentSerializer, ImageCaptionSerializer
-from .models import Agent, ImageCaption
+from .serializers import AgentSerializer, ImageCaptionSerializer, PhishingDetectionSerializer
+from .models import Agent, ImageCaption, PhishingAgent
 
 # Create your views here.
 
@@ -32,6 +32,24 @@ class ImageCaptionViewSet(ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ["get", "post", "delete"]
     search_fields = ["caption", "agent__name"]
+    filterset_fields = ["agent", "user"]
+    ordering_fields = ["created_at", "updated_at"]
+    ordering = ["-updated_at"]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+
+class PhishingDetectionViewSet(ModelViewSet):
+    """
+    API endpoint that allows phishing detections to be created, viewed and deleted by authenticated users.
+    """
+
+    queryset = PhishingAgent.objects.all()
+    serializer_class = PhishingDetectionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ["get", "post", "delete"]
+    search_fields = ["url", "agent__name"]
     filterset_fields = ["agent", "user"]
     ordering_fields = ["created_at", "updated_at"]
     ordering = ["-updated_at"]
