@@ -3,6 +3,7 @@ from .models import Agent, ImageCaption, ImageGeneration, PhishingAgent
 
 # Register your models here.
 
+
 @admin.register(Agent)
 class AgentAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "tool"]

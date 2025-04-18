@@ -14,7 +14,7 @@ TOOLS = (
 
 class Agent(models.Model):
     name = models.CharField(max_length=255)
-    tool = models.CharField(max_length=255, choices=TOOLS, default='other')
+    tool = models.CharField(max_length=255, choices=TOOLS, default="other")
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -23,14 +23,14 @@ class Agent(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
 
 class ImageCaption(models.Model):
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to="images/")
     caption = models.TextField()
-    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name='captions')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='captions')
+    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="captions")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="captions")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -38,28 +38,36 @@ class ImageCaption(models.Model):
         return self.caption[:50]
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
 
-class ImageGeneration(models.Model): 
-    image = models.ImageField(upload_to='images/')
+class ImageGeneration(models.Model):
+    image = models.ImageField(upload_to="images/")
     prompt = models.TextField()
-    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="image_generations")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="image_generations")
+    agent = models.ForeignKey(
+        Agent, on_delete=models.RESTRICT, related_name="image_generations"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="image_generations"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.prompt[:50]
-    
+
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
 
 class PhishingAgent(models.Model):
-    url = models.URLField()
+    url = models.URLField(max_length=1024)
     result = models.FloatField(null=True)
-    agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="phishing_agents")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="phishing_agents")
+    agent = models.ForeignKey(
+        Agent, on_delete=models.RESTRICT, related_name="phishing_agents"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="phishing_agents"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

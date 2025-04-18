@@ -2,6 +2,7 @@ from utils.image_captioner import inference_captioning
 from utils.phishing_detector import inference_phishing
 from utils.image_generator import generate_image_from_prompt
 
+
 class ImageCaptionService:
 
     def __init__(self, agent, image_path):
@@ -39,7 +40,6 @@ class ImageGenerationService:
                 image_data = generate_image_from_prompt(self.prompt)
                 return image_data
             except Exception as e:
-                print(e)
                 raise RuntimeError("Error generating image")
         else:
             raise ValueError("Unsupported agent tool type")
@@ -57,10 +57,8 @@ class PhishingDetectionService:
         """
         if self.agent.tool == "phishing-detection":
             try:
-                model_path = self.agent.name
-                print(model_path)
+                model_path = f"models/{self.agent.name}"
                 result = inference_phishing(model_path, self.url)
-                print(result)
                 return result
             except Exception as e:
                 raise RuntimeError("Error detecting phishing")

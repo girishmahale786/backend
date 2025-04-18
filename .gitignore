@@ -17,6 +17,7 @@ env/
 *.h5
 *.keras
 *.pkl
+models/
 
 # Ignore IDE and text editor-specific files and directories
 .vscode/

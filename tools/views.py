@@ -1,7 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 
-from .serializers import AgentSerializer, ImageCaptionSerializer, ImageGenerationSerializer, PhishingDetectionSerializer
+from .serializers import (
+    AgentSerializer,
+    ImageCaptionSerializer,
+    ImageGenerationSerializer,
+    PhishingDetectionSerializer,
+)
 from .models import Agent, ImageCaption, ImageGeneration, PhishingAgent
 
 # Create your views here.
@@ -39,6 +44,7 @@ class ImageCaptionViewSet(ModelViewSet):
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
+
 class ImageGenerationViewSet(ModelViewSet):
     """
     API endpoint that allows image generations to be created, viewed and deleted by authenticated users.
@@ -55,6 +61,7 @@ class ImageGenerationViewSet(ModelViewSet):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
 
 class PhishingDetectionViewSet(ModelViewSet):
     """

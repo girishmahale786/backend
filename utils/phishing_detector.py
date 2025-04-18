@@ -102,7 +102,6 @@ def google_index(url):
         ):
             return -1
         check = soup.find(id="rso").find("div").find("div").find("a")
-        # print(check)
         if check and check["href"]:
             return 0
         else:
@@ -273,7 +272,6 @@ def extract_features_from_url(url, opr_key=None, whoisapi_key=None):
 
 
 def load_model(model_path):
-    print("Loading rl model (full model)...")
     model = tf.keras.models.load_model(model_path)
     return model
 

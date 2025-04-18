@@ -1,7 +1,11 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework.exceptions import ValidationError
 from .models import Agent, ImageCaption, ImageGeneration, PhishingAgent
-from .services import ImageCaptionService, ImageGenerationService, PhishingDetectionService
+from .services import (
+    ImageCaptionService,
+    ImageGenerationService,
+    PhishingDetectionService,
+)
 from django.core.files.base import ContentFile
 
 
@@ -76,6 +80,11 @@ class PhishingDetectionSerializer(ModelSerializer):
         model = PhishingAgent
         fields = "__all__"
         read_only_fields = ["user", "result"]
+    
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr["agent"] = AgentSerializer(instance.agent).data
+        return repr
 
     def create(self, validated_data):
         user = self.context["request"].user
