@@ -211,7 +211,7 @@ def inference(model_path, image_path):
     num_layers = 4
     dropout = 0.2
 
-    if "efficientnet" in model_path:
+    if "efficientnet" in model_path.lower():
         encoder = EfficientNetEncoder()
         feature_dim = 1792
         num_image_tokens = 49

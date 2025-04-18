@@ -22,12 +22,11 @@ class ImageCaptionService:
             raise ValueError("Unsupported agent tool type")
 
 
-class TextToImageService:
+class ImageGenerationService:
 
     def __init__(self, agent, prompt):
         self.agent = agent
         self.prompt = prompt
-        self.image_path = None
 
     def generate_image(self):
         """
@@ -35,11 +34,11 @@ class TextToImageService:
         """
         if self.agent.tool == "image-generation":
             try:
-                model_path = self.agent.name 
-                self.image_path = generate_image_from_prompt(model_path, self.prompt)
-                return self.image_path
+                model_path = self.agent.name
+                image_data = generate_image_from_prompt(self.prompt)
+                return image_data
             except Exception as e:
+                print(e)
                 raise RuntimeError("Error generating image")
         else:
             raise ValueError("Unsupported agent tool type")
-

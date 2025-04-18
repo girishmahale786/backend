@@ -42,10 +42,10 @@ class ImageCaption(models.Model):
 
 
 class ImageGeneration(models.Model): 
+    image = models.ImageField(upload_to='images/')
     prompt = models.TextField()
     agent = models.ForeignKey(Agent, on_delete=models.RESTRICT, related_name="image_generations")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="image_generations")
-    image = models.ImageField(upload_to='images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
