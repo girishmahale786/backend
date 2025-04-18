@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework.exceptions import ValidationError
-from .models import Agent, ImageCaption, ImageGeneration
-from .services import ImageCaptionService, ImageGenerationService
+from .models import Agent, ImageCaption, ImageGeneration, PhishingAgent
+from .services import ImageCaptionService, ImageGenerationService, PhishingDetectionService
 from django.core.files.base import ContentFile
 
 
@@ -69,3 +69,26 @@ class ImageGenerationSerializer(ModelSerializer):
         except Exception as e:
             instance.delete()
             raise ValidationError("Error generating image")
+
+
+class PhishingDetectionSerializer(ModelSerializer):
+    class Meta:
+        model = PhishingAgent
+        fields = "__all__"
+        read_only_fields = ["user", "result"]
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        validated_data["user"] = user
+        instance = super().create(validated_data)
+        agent = instance.agent
+        url = instance.url
+        service = PhishingDetectionService(agent=agent, url=url)
+        try:
+            result = service.detect_phishing()
+            instance.result = result
+            instance.save()
+            return instance
+        except Exception as e:
+            instance.delete()
+            raise ValidationError("Error detecting phishing")
