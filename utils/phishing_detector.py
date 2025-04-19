@@ -276,7 +276,6 @@ def load_model(model_path):
     return model
 
 
-
 def predict(model, url, opr_key=None, whoisapi_key=None):
     """
     Predict the output of a given URL
@@ -299,6 +298,19 @@ whoisapi_key = (
     "at_NlbHgbJ1DvB5cHC4PJSaRy7pT38z9"  # Replace with your key or leave as None
 )
 
-def inference_phishing(model_path, url):
+def inference_phishing_dl(model_path, url):
     model = load_model(model_path)
     return predict(model, url)
+
+def inference_phishing_rl(model_path, url):
+    model = load_model(model_path)
+    q_vals = predict(model, url)
+    delta_q = float(q_vals[0, 0] - q_vals[0, 1])
+    # is_phish = delta_q <= 1.0
+    return delta_q
+
+def inference_phishing(model_path, url):
+    if "Reinforcement" in model_path:
+        return inference_phishing_rl(model_path, url)
+    else:
+        return inference_phishing_dl(model_path, url)

@@ -15,7 +15,7 @@ class ImageCaptionService:
         """
         if self.agent.tool == "image-captioning":
             try:
-                model_path = self.agent.name + ".pth"
+                model_path = f"models/{self.agent.name}.pth"
                 caption = inference_captioning(model_path, self.image_path)
                 return caption
             except Exception as e:

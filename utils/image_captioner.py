@@ -230,7 +230,7 @@ def inference_captioning(model_path, image_path):
         )
     ])
 
-    device = "cpu"
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
 
     decoder = TransformerDecoder(
