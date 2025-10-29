@@ -71,3 +71,18 @@ class PhishingAgent(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class MemoryJournal(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="memory_journals"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.entry[:50]
+
+    class Meta:
+        ordering = ["-created_at"]
+    
